@@ -1,0 +1,129 @@
+{{#section 'title'}}
+Game- {{room}}
+{{/section}}
+{{#section 'stylesheet'}}
+<link rel="stylesheet" type="text/css" href="/css/Game.css">
+{{/section}}
+<div id="overlay"></div>
+<div class="wrap">
+<div id="messagebox"></div>
+<div id="board">
+  <table id="placezone">
+    <tr>
+      <th>
+        <div id="cell0" class="stage dropplace">
+          <div class="base"></div>
+        </div>
+      </th>
+      <th>
+        <div id="cell1" class="stage dropplace">
+          <div class="base"></div>
+        </div>
+      </th>
+      <th>
+        <div id="cell2" class="stage dropplace">
+          <div class="base"></div>
+        </div>
+      </th>
+      <th>
+        <div id="cell3" class="stage dropplace">
+          <div class="base"></div>
+        </div>
+      </th>
+    </tr>
+    <tr>
+      <th>
+        <div id="cell4" class="stage dropplace">
+          <div class="base"></div>
+        </div>
+      </th>
+      <th>
+        <div id="cell5" class="stage dropplace">
+          <div class="base"></div>
+        </div>
+      </th>
+      <th>
+        <div id="cell6" class="stage dropplace">
+          <div class="base"></div>
+        </div>
+      </th>
+      <th>
+        <div id="cell7" class="stage dropplace">
+          <div class="base"></div>
+        </div>
+      </th>
+    </tr>
+    <tr>
+      <th>
+        <div id="cell8" class="stage dropplace">
+          <div class="base"></div>
+        </div>
+      </th>
+      <th>
+        <div id="cell9" class="stage dropplace">
+          <div class="base"></div>
+        </div>
+      </th>
+      <th>
+        <div id="cell10" class="stage dropplace">
+          <div class="base"></div>
+        </div>
+      </th>
+      <th>
+        <div id="cell11" class="stage dropplace">
+          <div class="base"></div>
+        </div>
+      </th>
+    </tr>
+    <tr>
+      <th>
+        <div id="cell12" class="stage dropplace">
+          <div class="base"></div>
+        </div>
+      </th>
+      <th>
+        <div id="cell13" class="stage dropplace">
+          <div class="base"></div>
+        </div>
+      </th>
+      <th>
+        <div id="cell14" class="stage dropplace">
+          <div class="base"></div>
+
+        </div>
+      </th>
+      <th>
+        <div id="cell15" class="stage dropplace">
+          <div class="base"></div>
+        </div>
+      </th>
+    </tr>
+  </table>
+  <div id="waitzone"></div>
+  </div>
+</div>
+<script id="cubeTemplate" type="text/x-handlebars-template">
+    <div class="stage">
+        <div id="piece\{{id}}" class="\{{class}}">
+          <figure class="back"></figure>
+          <figure class="top"></figure>
+          <figure class="bottom"></figure>
+          <figure class="left"></figure>
+          <figure class="right"></figure>
+          <figure class="front"></figure>
+        </div>
+    </div>
+</script>
+<script id="cylinderTemplate"  type="text/x-handlebars-template">
+    <div class="stage">
+        <div id="piece\{{id}}" class="\{{class}}"> 
+          <figure class="top"></figure>
+          <figure class="bottom"></figure>
+          <figure class="front"></figure>
+        </div>
+    </div>
+</script>
+<script src="/socket.io/socket.io.js"></script>
+<script>var room ="{{room}}";</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
+<script src="/js/bundle.js"></script>

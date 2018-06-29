@@ -1,0 +1,188 @@
+@dark: #4c1c24;
+@light:#e3dcc0;
+@grey: #666;
+@height:80px;
+@width:80px;
+body {
+   background-color:grey;
+}
+
+* {
+    -moz-user-select: -moz-none;
+   -khtml-user-select: none;
+   -webkit-user-select: none;
+   -ms-user-select: none;
+   user-select: none;
+}
+
+.circle { border-radius:50%;}
+table {float:left}
+
+.stage {
+  float:left;
+  margin-left:10px;
+  margin-right:10px;
+  width: 120px; 
+  height: 120px;
+  -webkit-perspective: 1200px;
+  -webkit-perspective-origin:50% -500px;
+}
+
+.base {
+  display: block; 
+  position: absolute;
+  width: 110px; 
+  height: 110px;
+  border-radius:50%;
+  background-color:@grey;
+  -webkit-transform: rotateX(90deg) translateX(25px) translateY(80px); 
+}
+
+figure {
+  display: block; 
+  position: absolute;
+  width:@width; 
+  height: @height;
+  border-radius:3%;
+  background-color:@light
+}
+.dark>figure{
+  background-color:@dark
+}
+
+.dark>figure.top {
+   background-color: darken(@dark,5%); 
+}
+.dark>figure.left {
+   background-color: darken(@dark,10%); 
+}
+figure.top {
+   background-color: darken(@light,5%); 
+}
+figure.left {
+   background-color: darken(@light,10%); 
+}
+.hole.dark>.top{
+  background: radial-gradient(black 40%, darken(@dark,5%) 50%);
+}
+.hole.light>.top{
+  background: radial-gradient(black 40%, darken(@light,5%) 50%);
+}
+
+.cube, .cylinder,table { -webkit-transform-style: preserve-3d;}
+figure { -webkit-transform-origin: 50% 50% 0; }
+.front { 
+  -webkit-transform: translateZ(calc(@height/2)); 
+}
+.back { 
+  -webkit-transform: rotateY(180deg) translateZ(calc(@height/2)); 
+}
+.top { 
+  -webkit-transform: rotateX(90deg) translateZ(calc(@height/2));
+}
+.bottom { 
+  -webkit-transform: rotateX(-90deg) translateZ(calc(@height/2)); 
+  box-shadow:0px 0px 10px rgba(0,0,0,0.75);
+}
+.left { 
+  -webkit-transform: rotateY(-90deg) translateZ(calc(@height/2));
+}
+.right { 
+  -webkit-transform: rotateY(90deg) translateZ(calc(@height/2)); 
+}
+.cylinder>.top, .cylinder>.bottom{
+  .circle
+}
+
+
+.short >.front {
+  -webkit-transform: translateZ(calc(@height/2)) translateY(calc(@height/2)); 
+  height: calc(@height/2);
+}
+.short>.back {
+  -webkit-transform: rotateY(180deg) translateZ(calc(@height/2)) translateY(calc(@height/2));
+    width: @width; 
+  height: calc(@height/2);
+}
+.short>.left {
+  -webkit-transform: rotateY(-90deg) translateZ(calc(@height/2)) translateY(calc(@height/2));
+    width: @width; 
+  height: calc(@height/2);
+}
+.short>.right {
+  -webkit-transform: rotateY(90deg) translateZ(calc(@height/2))  translateY(calc(@height/2)); 
+    width:  @width; 
+  height: calc(@height/2);
+}
+.short>.top {
+  -webkit-transform: rotateX(90deg) translateZ(0px);
+}
+.cube{ -webkit-transform: rotateY(5deg);}
+
+.cylinder>.front{-webkit-transform:translateY(0px);}
+.cylinder.short>.front{
+    width:  @width; 
+  height: calc(@height/2);
+  -webkit-transform:translateY(calc(@height/2));
+}
+div[draggable=true]>.bottom {
+  box-shadow:0px 0px 20px 10px lighten(red,20%);
+}
+
+.selectable .bottom {
+    box-shadow:0px 0px 10px 10px darken(green,10%);
+}
+
+.base.shine{
+   box-shadow:0px 0px 20px 10px darken(@grey,10%);
+}
+
+button {
+  height:@height;
+  width:@width;
+  position:absolute;
+  top:10px;
+  right:10px;
+}
+#board{
+ margin-top:200px
+}
+#board:after { 
+   content: " ";
+   display: block; 
+   height: 0; 
+   clear: both;
+}
+
+#overlay{
+    opacity:0.5;
+    background-color:#ccc;
+    position:fixed;
+    width:100%;
+    height:100%;
+    top:0px;
+    left:0px;
+    z-index:1000;
+}
+
+.hide {
+    display:none
+}
+#messagebox{
+  font-size:2em;
+  border:20px groove @light;
+  color:@light;
+  display:inline-block;
+  padding:5px;
+  margin:10px;
+  position:absolute;
+  
+}
+
+.quarto{
+  cursor:pointer;
+  font-size:1.5em;
+}
+.wrap {
+   position:absolute
+}
