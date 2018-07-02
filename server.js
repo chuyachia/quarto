@@ -19,8 +19,9 @@ app.set('view engine', '.hbs');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/',express.static(path.join(__dirname,"client")));
-app.use('/',indexRoutes(io));
-socket(io);
+var activeRooms = {};
+app.use('/',indexRoutes(io,activeRooms));
+socket(io,activeRooms);
 
 
 

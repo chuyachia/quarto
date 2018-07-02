@@ -129,7 +129,7 @@ div[draggable=true] > .bottom {
   box-shadow: 0px 0px 20px 10px #ff6666;
 }
 .selectable .bottom {
-  box-shadow: 0px 0px 10px 10px #004d00;
+  box-shadow: 0px 0px 10px 10px #60c2ef;
 }
 .base.shine {
   box-shadow: 0px 0px 20px 10px #4d4d4d;
@@ -172,10 +172,13 @@ button {
   margin: 10px;
   position: absolute;
 }
-.quarto {
+#quarto {
   cursor: pointer;
   font-size: 1.5em;
 }
 .wrap {
   position: absolute;
+}
+.highlight > .base {
+  background-color: #ff6666;
 }
