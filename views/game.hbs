@@ -4,100 +4,14 @@ Game- {{room}}
 {{#section 'stylesheet'}}
 <link rel="stylesheet" type="text/css" href="/css/Game.css">
 {{/section}}
+<div id="modal" class="hide">Would you like to play again?
+  <button class="left">Yes</button><button class="right">No</button>
+</div>
 <div id="overlay"></div>
 <div class="wrap">
 <div id="messagebox"></div>
 <div id="board">
   <table id="placezone">
-    <tr>
-      <th>
-        <div id="cell0" class="stage">
-          <div class="base"></div>
-        </div>
-      </th>
-      <th>
-        <div id="cell1" class="stage">
-          <div class="base"></div>
-        </div>
-      </th>
-      <th>
-        <div id="cell2" class="stage">
-          <div class="base"></div>
-        </div>
-      </th>
-      <th>
-        <div id="cell3" class="stage">
-          <div class="base"></div>
-        </div>
-      </th>
-    </tr>
-    <tr>
-      <th>
-        <div id="cell4" class="stage">
-          <div class="base"></div>
-        </div>
-      </th>
-      <th>
-        <div id="cell5" class="stage">
-          <div class="base"></div>
-        </div>
-      </th>
-      <th>
-        <div id="cell6" class="stage">
-          <div class="base"></div>
-        </div>
-      </th>
-      <th>
-        <div id="cell7" class="stage">
-          <div class="base"></div>
-        </div>
-      </th>
-    </tr>
-    <tr>
-      <th>
-        <div id="cell8" class="stage">
-          <div class="base"></div>
-        </div>
-      </th>
-      <th>
-        <div id="cell9" class="stage">
-          <div class="base"></div>
-        </div>
-      </th>
-      <th>
-        <div id="cell10" class="stage">
-          <div class="base"></div>
-        </div>
-      </th>
-      <th>
-        <div id="cell11" class="stage">
-          <div class="base"></div>
-        </div>
-      </th>
-    </tr>
-    <tr>
-      <th>
-        <div id="cell12" class="stage">
-          <div class="base"></div>
-        </div>
-      </th>
-      <th>
-        <div id="cell13" class="stage">
-          <div class="base"></div>
-        </div>
-      </th>
-      <th>
-        <div id="cell14" class="stage">
-          <div class="base"></div>
-
-        </div>
-      </th>
-      <th>
-        <div id="cell15" class="stage">
-          <div class="base"></div>
-        </div>
-      </th>
-    </tr>
   </table>
   <div id="waitzone"></div>
   </div>
@@ -122,6 +36,13 @@ Game- {{room}}
           <figure class="front"></figure>
         </div>
     </div>
+</script>
+<script id="cellTemplate" type="text/x-handlebars-template">
+  <th>
+    <div id="cell\{{id}}" class="stage">
+      <div class="base"></div>
+    </div>
+  </th>
 </script>
 <script src="/socket.io/socket.io.js"></script>
 <script>var room ="{{room}}";</script>

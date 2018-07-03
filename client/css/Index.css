@@ -93,100 +93,40 @@ figure.right {
   height: calc(80px/2);
   -webkit-transform: translateY(calc(80px/2));
 }
+* {
+  font-size: 18px;
+}
+.title {
+  font-family: 'Courgette';
+  font-size: 3em;
+}
 body {
   background-color: grey;
-  font-family: 'Courgette';
   color: #e3dcc0;
 }
-* {
-  -moz-user-select: -moz-none;
-  -khtml-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-#placezone {
-  float: left;
-  -webkit-transform-style: preserve-3d;
-}
-.base {
-  display: block;
+.center {
   position: absolute;
-  width: 110px;
-  height: 110px;
-  border-radius: 50%;
-  background-color: #666;
-  -webkit-transform: rotateX(90deg) translateX(25px) translateY(80px);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
 }
-div[draggable=true] > .bottom {
-  box-shadow: 0px 0px 20px 10px #ff6666;
+input {
+  border: 1px solid lightgray;
+  border-radius: 3px;
 }
-.selectable .bottom {
-  box-shadow: 0px 0px 10px 10px #60c2ef;
+.input-field {
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
-.shine > .base {
-  box-shadow: 0px 0px 20px 10px #4d4d4d;
+form {
+  font-family: Helvetica;
 }
-.highlight > .base {
-  background-color: #ff6666;
-}
-#board {
-  margin-top: 200px;
-}
-#board:after {
-  content: " ";
-  display: block;
-  height: 0;
-  clear: both;
-}
-#overlay {
-  opacity: 0.5;
-  background-color: #ccc;
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0px;
-  left: 0px;
-  z-index: 10;
-}
-#modal {
-  opacity: 0.8;
-  position: fixed;
-  top: 0px;
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
-  margin: auto;
-  background-color: white;
-  width: 50%;
-  height: 30%;
-  z-index: 20;
-}
-.hide {
-  display: none;
-}
-#messagebox {
-  font-size: 2em;
-  border: 20px groove #e3dcc0;
-  display: inline-block;
-  padding: 5px;
-  margin: 10px;
-  position: absolute;
-}
-#quarto {
-  cursor: pointer;
-  font-size: 1.5em;
-}
-.wrap {
-  position: absolute;
-}
-button.left {
-  position: absolute;
-  bottom: 5px;
-  left: 5px;
-}
-button.right {
-  position: absolute;
-  bottom: 5px;
-  right: 5px;
+button {
+  border: 3px solid #c4b579;
+  border-radius: 3px;
+  background-color: #e3dcc0;
+  color: #666;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }

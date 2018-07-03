@@ -1,4 +1,5 @@
-// use Game.checkPlaced to decide whether base shine and allow drop
+// waitzone click prevent pass id of non existing
+// after win lost, propose restart
 import Game from './Game.js';
 (function(){
     var socket = io.connect('https://quarto-game-ccyqc.c9users.io/');
@@ -6,28 +7,55 @@ import Game from './Game.js';
     var messagebox = document.getElementById('messagebox');
     var overlay = document.getElementById('overlay');
     var placezone = document.getElementById('placezone');
+    var modal = document.getElementById('modal');
     const instruction= {
-        waitforjoin:'Waiting for another player to join the game',
+        waitforjoin:'Waiting for the other player to join the game',
         roomfull:'The game that you try to join is full. Please try another game',
         notexist:'The game that you try to join does not exist. Please try another game',
         waitformove:'Waiting for the other player to act',
         ready:'Game ready to start! Waiting for the other player to act',
-        give:'Click a piece to give it to the other player or click <em id="quarto">Quarto!</em> if you think you just made a line.',
+        give:'Click a piece to give it to the other player or click <em id="quarto">Quarto!</em> here if you think you just made a line.',
         place:'Drap the highlighted piece and drop on the desired cell.',
         won:"You won!",
-        lost:"The other player just found a quarto. You lost...",
-        wrong:"No Quarto found with the piece that you just placed..."
+        lost:"The other player just found a Quarto. You lost...",
+        wrong:"No Quarto found with the piece that you just placed...",
+        left:"The other player just left",
+        replay:"<button id='replay'>Play again</button><button id='leave'>Leave</button>"
     };
-    function click(ev){
+    
+
+    function start(){
+        Game.start();
+        waitzone.classList.remove('selectable');
+        waitzone.innerHTML = Game.getAllPieces();
+        placezone.innerHTML= Game.getAllCells();
+    }
+    
+    function replay(ev){
         var target = ev.target;
-        if (target.nodeName=="FIGURE")
+        if (target.className=="left") {
+            start();
+            modal.classList.add('hide');
+            modal.removeEventListener('click',replay);
+            socket.emit('replay',{room:room});
+        } else if (target.className=="right") {
+            socket.disconnect();
+            modal.classList.add('hide');
+            modal.removeEventListener('click',replay);
+        }
+    }
+    
+    function select(ev){
+        var target = ev.target;
+        if (target.nodeName=="FIGURE") {
             target = target.parentElement;
         target.setAttribute('draggable','true');
-        waitzone.removeEventListener('click',click);
+        waitzone.removeEventListener('click',select);
         waitzone.classList.remove('selectable');
-        socket.emit('given',{pieceid:target.id,roomname:room});
+        socket.emit('given',{pieceid:target.id,room:room});
         messagebox.innerHTML = instruction.waitformove;
         overlay.classList.remove('hide');
+        }
     }
     
     function makeDraggable(id){
@@ -54,19 +82,24 @@ import Game from './Game.js';
     function dragover(ev) {
         ev.preventDefault();
         var target = ev.target;
-        if (target.tagName!=="DIV"||(target.className.match("stage")&&target.children.length > 1))
+        if (target.tagName!=="DIV")
           ev.dataTransfer.dropEffect = "none";
+        else {
+            if (target.className.match("base"))
+                target = target.parentElement;
+            if (Game.alreadyPlaced(target.id))
+                ev.dataTransfer.dropEffect = "none";
+        }
     }
 
     function dragenter(ev) {
         ev.preventDefault();
         if (ev.target.tagName=="DIV") {
-          var target = ev.target;
-          if (!target.className.match("base"))
-            target = target.children[0];
-            if (target.parentElement.children.length === 1) {
+            var target = ev.target;
+            if (target.className.match("base"))
+                target = target.parentElement;
+            if (!Game.alreadyPlaced(target.id))
                 target.classList.add("shine");
-            }
         } 
     }
     
@@ -74,34 +107,30 @@ import Game from './Game.js';
         ev.preventDefault();
         if (ev.target.tagName=="DIV") {
             var target = ev.target;
-            if (!target.className.match("base"))
-              target = target.children[0];
-            if (target.parentElement.children.length === 1) {
+            if (target.className.match("base"))
+              target = target.parentElement;
+            if (!Game.alreadyPlaced(target.id))
                 target.classList.remove("shine");
-            }
         }
     }
     
     function drop(ev) {
         ev.preventDefault();
         if (ev.target.tagName=="DIV") {
-            if (ev.target.children.length <= 1) {
-              var target = ev.target;
-              if (!target.className.match("stage")) {
-                target = target.parentElement;
-              }
-              target.children[0].classList.remove('shine');
-              var data = ev.dataTransfer.getData("text");
-              if (document.getElementById(data)) {
+            var target = ev.target;
+            if (target.className.match("base"))
+              target = target.parentElement;
+            if (!Game.alreadyPlaced(target.id)){
+                target.classList.remove('shine');
+                var data = ev.dataTransfer.getData("text");
                 var piece = document.getElementById(data);
                 piece.removeAttribute("draggable");
                 target.append(piece);
                 messagebox.innerHTML = instruction.give;
-                socket.emit('placed',{pieceid:data,cellid:target.id,classname:piece.className,roomname:room});
+                socket.emit('placed',{pieceid:data,cellid:target.id,classname:piece.className,room:room});
                 Game.update(target.id,piece.className);
-                waitzone.addEventListener('click',click);
+                waitzone.addEventListener('click',select);
                 waitzone.classList.add('selectable');
-              }
             }
         }
     }
@@ -111,18 +140,27 @@ import Game from './Game.js';
             var piece = document.getElementById('cell'+id);
             piece.classList.add('highlight');
         });
-        socket.emit('won',{pieceid:ids,roomname:room});
     }
     
     function quarto(ev){
         if (ev.target.id=="quarto"){
             var highlights =Game.quarto();
-            console.log(highlights);
             if (highlights.length>0){
                 showWin(highlights);
                 messagebox.innerHTML = instruction.won;
+                waitzone.removeEventListener('click',select);
+                waitzone.classList.remove('selectable');
+                socket.emit('won',{pieceid:highlights,room:room});
+                window.setTimeout(function(){
+                    overlay.classList.remove('hide');
+                    modal.classList.remove('hide');
+                    modal.addEventListener('click',replay);
+                },3000);
             } else {
                 messagebox.innerHTML = instruction.wrong;
+                window.setTimeout(function(){
+                    messagebox.innerHTML = instruction.give;
+                },3000);
             }
         }
     }
@@ -131,11 +169,11 @@ import Game from './Game.js';
         console.log('tell room');
         socket.emit('room name',{room:room});
     });
-    socket.on('new room created',function(){
+    socket.on('wait for other',function(){
         console.log('Created a new game');
         messagebox.innerHTML = instruction.waitforjoin;
     });
-    socket.on('new player joined',function(){
+    socket.on('ready to start',function(){
         console.log('Game ready to start!');
         overlay.classList.add('hide');
         messagebox.innerHTML = instruction.ready;
@@ -149,7 +187,7 @@ import Game from './Game.js';
     socket.on('pick one',function(){
         console.log('pick one');
         messagebox.innerHTML = instruction.give;
-        waitzone.addEventListener('click',click);
+        waitzone.addEventListener('click',select);
         waitzone.classList.add('selectable');
     });
     socket.on('wait',function(){
@@ -164,19 +202,29 @@ import Game from './Game.js';
         movePiece(data.pieceid,data.cellid,data.classname);
     });
     socket.on('otherwon',function(data){
-        showWin(data.piece.id);
+        showWin(data.pieceid);
         messagebox.innerHTML = instruction.lost;
+        window.setTimeout(function(){
+            overlay.classList.remove('hide');
+            modal.classList.remove('hide');
+            modal.addEventListener('click',replay);
+        },3000);
     });
     socket.on('player left',function(){
-        console.log('the other user just left');
+        messagebox.innerHTML = instruction.left;
+        start();
+        overlay.classList.remove('hide');
+        window.setTimeout(function(){
+            messagebox.innerHTML = instruction.waitforjoin;
+        },3000);
     });
-    waitzone.innerHTML = Game.getAllPieces();
+    
     waitzone.addEventListener('dragstart',dragstart);
     placezone.addEventListener('dragover',dragover);
     placezone.addEventListener('dragenter',dragenter);
     placezone.addEventListener('dragleave',dragleave);
     placezone.addEventListener('drop',drop);
     messagebox.addEventListener('click',quarto);
+    start();
     
-
 })();

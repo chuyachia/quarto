@@ -2,11 +2,12 @@
 @light:#e3dcc0;
 @grey: #666;
 @blue:#60c2ef;
-@height:80px;
-@width:80px;
+@import "Piece.less"; 
 
 body {
    background-color:grey;
+  font-family:'Courgette';
+  color:@light;
 }
 
 * {
@@ -15,20 +16,14 @@ body {
    -webkit-user-select: none;
    -ms-user-select: none;
    user-select: none;
+
 }
 
-.circle { border-radius:50%;}
-table {float:left}
-
-.stage {
-  float:left;
-  margin-left:10px;
-  margin-right:10px;
-  width: 120px; 
-  height: 120px;
-  -webkit-perspective: 1200px;
-  -webkit-perspective-origin:50% -500px;
+#placezone{
+    float:left;
+    -webkit-transform-style: preserve-3d
 }
+
 
 .base {
   display: block; 
@@ -40,115 +35,17 @@ table {float:left}
   -webkit-transform: rotateX(90deg) translateX(25px) translateY(80px); 
 }
 
-figure {
-  display: block; 
-  position: absolute;
-  width:@width; 
-  height: @height;
-  border-radius:3%;
-  background-color:@light
-}
-.dark>figure{
-  background-color:@dark
-}
 
-.dark>figure.top {
-   background-color: darken(@dark,5%); 
-}
-.dark>figure.left {
-   background-color: darken(@dark,10%); 
-}
-figure.top {
-   background-color: darken(@light,5%); 
-}
-figure.left {
-   background-color: darken(@light,10%); 
-}
-.hole.dark>.top{
-  background: radial-gradient(black 40%, darken(@dark,5%) 50%);
-}
-.hole.light>.top{
-  background: radial-gradient(black 40%, darken(@light,5%) 50%);
-}
+div[draggable=true]>.bottom {box-shadow:0px 0px 20px 10px lighten(red,20%);}
 
-.cube, .cylinder,table { -webkit-transform-style: preserve-3d;}
-figure { -webkit-transform-origin: 50% 50% 0; }
-.front { 
-  -webkit-transform: translateZ(calc(@height/2)); 
-}
-.back { 
-  -webkit-transform: rotateY(180deg) translateZ(calc(@height/2)); 
-}
-.top { 
-  -webkit-transform: rotateX(90deg) translateZ(calc(@height/2));
-}
-.bottom { 
-  -webkit-transform: rotateX(-90deg) translateZ(calc(@height/2)); 
-  box-shadow:0px 0px 10px rgba(0,0,0,0.75);
-}
-.left { 
-  -webkit-transform: rotateY(-90deg) translateZ(calc(@height/2));
-}
-.right { 
-  -webkit-transform: rotateY(90deg) translateZ(calc(@height/2)); 
-}
-.cylinder>.top, .cylinder>.bottom{
-  .circle
-}
+.selectable .bottom {box-shadow:0px 0px 10px 10px @blue;}
 
+.shine>.base{ box-shadow:0px 0px 20px 10px darken(@grey,10%);}
 
-.short >.front {
-  -webkit-transform: translateZ(calc(@height/2)) translateY(calc(@height/2)); 
-  height: calc(@height/2);
-}
-.short>.back {
-  -webkit-transform: rotateY(180deg) translateZ(calc(@height/2)) translateY(calc(@height/2));
-    width: @width; 
-  height: calc(@height/2);
-}
-.short>.left {
-  -webkit-transform: rotateY(-90deg) translateZ(calc(@height/2)) translateY(calc(@height/2));
-    width: @width; 
-  height: calc(@height/2);
-}
-.short>.right {
-  -webkit-transform: rotateY(90deg) translateZ(calc(@height/2))  translateY(calc(@height/2)); 
-    width:  @width; 
-  height: calc(@height/2);
-}
-.short>.top {
-  -webkit-transform: rotateX(90deg) translateZ(0px);
-}
-.cube{ -webkit-transform: rotateY(5deg);}
+.highlight> .base {background-color: lighten(red,20%);}
 
-.cylinder>.front{-webkit-transform:translateY(0px);}
-.cylinder.short>.front{
-    width:  @width; 
-  height: calc(@height/2);
-  -webkit-transform:translateY(calc(@height/2));
-}
-div[draggable=true]>.bottom {
-  box-shadow:0px 0px 20px 10px lighten(red,20%);
-}
+#board{ margin-top:200px}
 
-.selectable .bottom {
-    box-shadow:0px 0px 10px 10px @blue;
-}
-
-.base.shine{
-   box-shadow:0px 0px 20px 10px darken(@grey,10%);
-}
-
-button {
-  height:@height;
-  width:@width;
-  position:absolute;
-  top:10px;
-  right:10px;
-}
-#board{
- margin-top:200px
-}
 #board:after { 
    content: " ";
    display: block; 
@@ -164,16 +61,28 @@ button {
     height:100%;
     top:0px;
     left:0px;
-    z-index:1000;
+    z-index:10;
 }
 
-.hide {
-    display:none
+#modal {
+    opacity:0.8;
+    position:fixed;
+    top:0px;
+    bottom:0px;
+    left:0px;
+    right:0px;
+    margin:auto;
+    background-color:white;
+    width:50%;
+    height:30%;
+    z-index:20; 
 }
+
+.hide { display:none}
+
 #messagebox{
   font-size:2em;
   border:20px groove @light;
-  color:@light;
   display:inline-block;
   padding:5px;
   margin:10px;
@@ -185,10 +94,17 @@ button {
   cursor:pointer;
   font-size:1.5em;
 }
-.wrap {
-   position:absolute
+
+.wrap {position:absolute}
+
+button.left {
+    position:absolute;
+    bottom:5px;
+    left:5px
 }
 
-.highlight> .base {
-    background-color: lighten(red,20%);
+button.right {
+    position:absolute;
+    bottom:5px;
+    right:5px
 }

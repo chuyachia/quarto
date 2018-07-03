@@ -1,14 +1,51 @@
 {{#section 'title'}}
 Quarto
 {{/section}}
+{{#section 'stylesheet'}}
+<link rel="stylesheet" type="text/css" href="/css/Index.css">
+{{/section}}
+<div class="center">
+    <div class="title">Quarto</div>
+    <div class="input-field">
+        <form action="join" method="post">
+            Join an existing game : <input name="roomname" type="text" required>
+            <button type="submit">Join</button>
+        </form>
+        <em class="warning">{{joinerror}}</em>
+        <form action="create" method="post">
+             Create a new game : <input name="roomname" type="text" required>
+              <button type="submit">Create</button>
+        </form>
+        <em class="warning">{{createerror}}</em>
+    </div>
+    <div class="stage">
+    <div class="cube hole">
+      <figure class="back"></figure>
+      <figure class="top"></figure>
+      <figure class="bottom"></figure>
+      <figure class="left"></figure>
+      <figure class="right"></figure>
+      <figure class="front"></figure>
+    </div>
+</div>
+<div class="stage">
+    <div class="cylinder hole short dark"> 
+      <figure class="top"></figure>
+      <figure class="bottom"></figure>
+      <figure class="front"></figure>
+    </div>
+</div>
+<div class="stage">
+    <div class="cube dark">
+      <figure class="back"></figure>
+      <figure class="top"></figure>
+      <figure class="bottom"></figure>
+      <figure class="left"></figure>
+      <figure class="right"></figure>
+      <figure class="front"></figure>
+    </div>
+</div>
+</div>
 
-<form action="join" method="post">
-    Join an existing game : <input name="roomname" type="text" required>
-    <input type="submit">
-</form>
-<span class="warning">{{error}}</span>
-<form action="create" method="post">
-     Create a new game : <input name="roomname" type="text" required>
-      <input type="submit">
-</form>
+
  

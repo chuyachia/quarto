@@ -3,8 +3,7 @@ module.exports = function(io,activeRooms){
   var express = require('express');
   var routes = express.Router();
   var querystring = require('querystring');
-  //var existingRooms = [];
-  
+
   routes.get('/', function(req, res) {
     res.render('index');
   });
@@ -20,11 +19,11 @@ module.exports = function(io,activeRooms){
   routes.post('/join',(req,res)=>{
     io.in(req.body.roomname).clients((err, clients) =>{
       if (clients.length===0) {
-        res.render('index',{error:'No game found with the given name'});
+        res.render('index',{joinerror:'No game found with the given name'});
       } else if (clients.length===1) {
         res.redirect('/game/'+req.body.roomname);
       } else {
-          res.render('index',{error:'The game that you are looking for is already full'});
+          res.render('index',{joinerror:'The game that you tried to join is already full'});
       }
     });
   });
@@ -35,7 +34,7 @@ module.exports = function(io,activeRooms){
         activeRooms[req.body.roomname] = [];
         res.redirect('/game/'+req.body.roomname);
       } else {
-        res.render('index',{error:'The game name is already used'});
+        res.render('index',{createerror:'The game name is already used'});
       }
     });
   });
