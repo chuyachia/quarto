@@ -1,6 +1,6 @@
 import Game from './Game.js';
 (function(){
-    var socket = io.connect('https://quarto-game-ccyqc.c9users.io/');
+    var socket = io.connect(window.location.hostname);
     var waitzone = document.getElementById('waitzone');
     var messagebox = document.getElementById('messagebox');
     var info = document.getElementById('info');
