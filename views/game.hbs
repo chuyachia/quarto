@@ -28,35 +28,7 @@ Quarto- {{room}}
   <div id="waitzone"></div>
   </div>
 </div>
-<script id="cubeTemplate" type="text/x-handlebars-template">
-    <div class="stage">
-        <div id="piece\{{id}}" class="\{{class}}">
-          <figure class="back"></figure>
-          <figure class="top"></figure>
-          <figure class="bottom"></figure>
-          <figure class="left"></figure>
-          <figure class="right"></figure>
-          <figure class="front"></figure>
-        </div>
-    </div>
-</script>
-<script id="cylinderTemplate"  type="text/x-handlebars-template">
-    <div class="stage">
-        <div id="piece\{{id}}" class="\{{class}}"> 
-          <figure class="top"></figure>
-          <figure class="bottom"></figure>
-          <figure class="front"></figure>
-        </div>
-    </div>
-</script>
-<script id="cellTemplate" type="text/x-handlebars-template">
-  <th>
-    <div id="cell\{{id}}" class="stage">
-      <div class="base"></div>
-    </div>
-  </th>
-</script>
 <script src="/socket.io/socket.io.js"></script>
 <script>var room ="{{room}}";</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.runtime.min.js"></script>
 <script src="/js/bundle.js"></script>

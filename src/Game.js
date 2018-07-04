@@ -1,3 +1,7 @@
+import cubeTemplate from './templates/cube.hbs';
+import cylinderTemplate from './templates/cylinder.hbs';
+import cellTemplate from './templates/cell.hbs';
+
 var Game = function(){
     const type = [
     "cylinder hole",
@@ -24,9 +28,9 @@ var Game = function(){
     var dark;
     var short;
     
-    var cubeTemplate = Handlebars.compile(document.getElementById('cubeTemplate').innerHTML);
+    /*var cubeTemplate = Handlebars.compile(document.getElementById('cubeTemplate').innerHTML);
     var cylinderTemplate = Handlebars.compile(document.getElementById('cylinderTemplate').innerHTML);
-    var cellTemplate = Handlebars.compile(document.getElementById('cellTemplate').innerHTML);
+    var cellTemplate = Handlebars.compile(document.getElementById('cellTemplate').innerHTML);*/
     
     function flatten(arr) {
         return arr = [].concat.apply([], arr);

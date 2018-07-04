@@ -48,6 +48,7 @@ figure.left {
 }
 figure.front {
   -webkit-transform: translateZ(calc(80px/2));
+  background: linear-gradient(#d3c89d, #e3dcc0);
 }
 figure.back {
   -webkit-transform: rotateY(180deg) translateZ(calc(80px/2));
@@ -87,6 +88,9 @@ figure.right {
 }
 .cylinder > .front {
   -webkit-transform: translateY(0px);
+}
+.dark > .front {
+  background: linear-gradient(#270e12, #4c1c24);
 }
 .cylinder.short > .front {
   width: 80px;
