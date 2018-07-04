@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "main": "server.js",
   "scripts": {
-    "start-dev": "NODE_ENV=development webpack -w&NODE_ENV=development less-watch-compiler src/css client/css&NODE_ENV=development nodemon server.js"
+    "start-dev": "webpack -w --mode development&less-watch-compiler src/css client/css&nodemon server.js",
+    "build": "webpack --progress --mode production",
+    "start":"node server.js"
   },
   "repository": "",
   "dependencies": {

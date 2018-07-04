@@ -1,4 +1,3 @@
-// click yes to replay after the other player left , message should be wait for new player to join not waiting the other player.
 // what if both left
 module.exports = function(io,activeRooms){
     var replay = {};
@@ -21,7 +20,7 @@ module.exports = function(io,activeRooms){
                     if (starter >0.5)
                         socket.emit('pick one');
                     else 
-                        socket.broadcast.to(activeRooms[data.room][0]).emit('pick one');
+                        socket.broadcast.to(data.room).emit('pick one');
                 
                 } else {
                     socket.emit('room full');
@@ -32,6 +31,7 @@ module.exports = function(io,activeRooms){
         });
         
         socket.on('given',function(data){
+            socket.emit('wait');
             socket.broadcast.to(data.room).emit('toplace',{pieceid:data.pieceid});
         });
         socket.on('placed',function(data){
@@ -44,16 +44,15 @@ module.exports = function(io,activeRooms){
             if (data.room in replay) {
                 if (data.replay&&replay[data.room]['res1']) {
                     io.in(data.room).emit('ready to start');
-                    socket.emit('pick one');
+                    var starter =Math.random();
+                    if (starter >0.5)
+                        socket.emit('pick one');
+                    else 
+                        socket.broadcast.to(data.room).emit('pick one');
                 }
                 delete replay[data.room];
-                //var starter =Math.random();
-                //if (starter >0.5)
-                    
-                //else 
-                //    socket.broadcast.to(activeRooms[data.room]).emit('pick one');
             } else {
-                if (data.replay){
+                if (data.replay&&activeRooms[data.room].length==2){
                     replay[data.room] = {res1:true};
                     socket.emit('wait for replay');
                 }

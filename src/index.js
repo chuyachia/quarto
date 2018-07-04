@@ -1,6 +1,3 @@
-// waitzone click prevent pass id of non existing
-// after win lost, propose restart
-// when at restart modal, other player left trigger waiting for new player and cause overlay to disappear 
 import Game from './Game.js';
 (function(){
     var socket = io.connect('https://quarto-game-ccyqc.c9users.io/');
@@ -25,8 +22,8 @@ import Game from './Game.js';
         wrong:"No Quarto found with the piece that you just placed...",
         left:"The other player just left"
     };
+    var timeouts = [];
     
-
     function start(){
         Game.start();
         waitzone.classList.remove('selectable');
@@ -44,6 +41,12 @@ import Game from './Game.js';
             overlay.classList.add('hide');
             gameinfo.classList.add('hide');
         }
+    }
+    
+    function showreplay(){
+        overlay.classList.remove('hide');
+        askreplay.classList.remove('hide');
+        askreplay.addEventListener('click',replay);
     }
     
     function replay(ev){
@@ -69,8 +72,6 @@ import Game from './Game.js';
         waitzone.removeEventListener('click',select);
         waitzone.classList.remove('selectable');
         socket.emit('given',{pieceid:target.id,room:room});
-        messagebox.innerHTML = instruction.waitformove;
-        overlay.classList.remove('hide');
         }
     }
     
@@ -166,16 +167,14 @@ import Game from './Game.js';
                 waitzone.removeEventListener('click',select);
                 waitzone.classList.remove('selectable');
                 socket.emit('won',{pieceid:highlights,room:room});
-                window.setTimeout(function(){
-                    overlay.classList.remove('hide');
-                    askreplay.classList.remove('hide');
-                    askreplay.addEventListener('click',replay);
-                },3000);
+                timeouts.push(window.setTimeout(function(){
+                    showreplay();
+                },3000));
             } else {
                 messagebox.innerHTML = instruction.wrong;
-                window.setTimeout(function(){
+                timeouts.push(window.setTimeout(function(){
                     messagebox.innerHTML = instruction.give;
-                },3000);
+                },3000));
             }
         }
     }
@@ -184,12 +183,15 @@ import Game from './Game.js';
         socket.emit('room name',{room:room});
     });
     socket.on('wait for other',function(){
+        overlay.classList.remove('hide');
         messagebox.innerHTML = instruction.waitforjoin;
     });
     socket.on('wait for replay',function(){
+        timeouts.forEach(clearTimeout);
         messagebox.innerHTML = instruction.waitforreplay;
     });
     socket.on('ready to start',function(){
+        start();
         messagebox.innerHTML = instruction.ready;
     });
     socket.on('room full',function(){
@@ -197,15 +199,15 @@ import Game from './Game.js';
     });
     socket.on('not exist',function(){
         messagebox.innerHTML = instruction.notexist;
-    })
+    });
     socket.on('pick one',function(){
-        console.log('pick one');
         overlay.classList.add('hide');
         messagebox.innerHTML = instruction.give;
         waitzone.addEventListener('click',select);
         waitzone.classList.add('selectable');
     });
     socket.on('wait',function(){
+        overlay.classList.remove('hide');
         messagebox.innerHTML = instruction.waitformove;
     });
     socket.on('toplace',function(data){
@@ -219,20 +221,19 @@ import Game from './Game.js';
     socket.on('otherwon',function(data){
         showWin(data.pieceid);
         messagebox.innerHTML = instruction.lost;
-        window.setTimeout(function(){
-            overlay.classList.remove('hide');
-            askreplay.classList.remove('hide');
-            askreplay.addEventListener('click',replay);
-        },3000);
+        timeouts.push(window.setTimeout(function(){
+            showreplay();
+        },3000));
     });
     
     socket.on('player left',function(){
+        timeouts.forEach(clearTimeout);
+        timeouts=[];
         messagebox.innerHTML = instruction.left;
-        start();
         overlay.classList.remove('hide');
-        window.setTimeout(function(){
+        timeouts.push(window.setTimeout(function(){
             messagebox.innerHTML = instruction.waitforjoin;
-        },3000);
+        },3000));
     });
     
     waitzone.addEventListener('dragstart',dragstart);

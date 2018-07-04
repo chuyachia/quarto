@@ -28,10 +28,6 @@ var Game = function(){
     var dark;
     var short;
     
-    /*var cubeTemplate = Handlebars.compile(document.getElementById('cubeTemplate').innerHTML);
-    var cylinderTemplate = Handlebars.compile(document.getElementById('cylinderTemplate').innerHTML);
-    var cellTemplate = Handlebars.compile(document.getElementById('cellTemplate').innerHTML);*/
-    
     function flatten(arr) {
         return arr = [].concat.apply([], arr);
     }
