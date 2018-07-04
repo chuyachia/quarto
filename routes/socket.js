@@ -1,5 +1,5 @@
-// global array keep track of socket id, room name and last activity time to be able to broadcast to room when a socket leaves and clean empty room
-
+// click yes to replay after the other player left , message should be wait for new player to join not waiting the other player.
+// what if both left
 module.exports = function(io,activeRooms){
     var replay = {};
     
@@ -41,36 +41,38 @@ module.exports = function(io,activeRooms){
             socket.broadcast.to(data.room).emit('otherwon',{pieceid:data.pieceid});
         });
         socket.on('replay',function(data){
-            if (data.room in replay&&replay[data.room]==1) {
-                replay[data.room] = 0;
-                io.in(data.room).emit('ready to start');
-                var starter =Math.random();
-                //if (starter >0.5)
+            if (data.room in replay) {
+                if (data.replay&&replay[data.room]['res1']) {
+                    io.in(data.room).emit('ready to start');
                     socket.emit('pick one');
+                }
+                delete replay[data.room];
+                //var starter =Math.random();
+                //if (starter >0.5)
+                    
                 //else 
                 //    socket.broadcast.to(activeRooms[data.room]).emit('pick one');
             } else {
-                replay[data.room] = 1;
-                socket.emit('wait for other');
+                if (data.replay){
+                    replay[data.room] = {res1:true};
+                    socket.emit('wait for replay');
+                }
+                else
+                    replay[data.room] = {res1:false};
+                
             }
         })
         
         
         socket.on('disconnect', function () {
-            console.log('hey');
             Object.keys(activeRooms).forEach(function(k){
                 var ind = activeRooms[k].indexOf(socket.id);
-                console.log(socket.id);
-                console.log(activeRooms[k]);
-                console.log(ind);
                 if (ind!==-1){
                     if (activeRooms[k].length==2){
                         activeRooms[k].splice(ind,1);
                         io.in(k).emit('player left');
-                        console.log(activeRooms);
                     } else if (activeRooms[k].length==1) {
                         delete activeRooms[k];
-                        console.log(activeRooms);
                     }
                 }
             });

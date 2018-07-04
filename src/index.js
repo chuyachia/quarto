@@ -1,15 +1,19 @@
 // waitzone click prevent pass id of non existing
 // after win lost, propose restart
+// when at restart modal, other player left trigger waiting for new player and cause overlay to disappear 
 import Game from './Game.js';
 (function(){
     var socket = io.connect('https://quarto-game-ccyqc.c9users.io/');
     var waitzone = document.getElementById('waitzone');
     var messagebox = document.getElementById('messagebox');
+    var info = document.getElementById('info');
+    var gameinfo = document.getElementById('gameinfo');
     var overlay = document.getElementById('overlay');
     var placezone = document.getElementById('placezone');
-    var modal = document.getElementById('modal');
+    var askreplay = document.getElementById('askreplay');
     const instruction= {
-        waitforjoin:'Waiting for the other player to join the game',
+        waitforjoin:'Waiting for a new player to join the game',
+        waitforreplay:'Waiting for the other player to join the game',
         roomfull:'The game that you try to join is full. Please try another game',
         notexist:'The game that you try to join does not exist. Please try another game',
         waitformove:'Waiting for the other player to act',
@@ -17,10 +21,9 @@ import Game from './Game.js';
         give:'Click a piece to give it to the other player or click <em id="quarto">Quarto!</em> here if you think you just made a line.',
         place:'Drap the highlighted piece and drop on the desired cell.',
         won:"You won!",
-        lost:"The other player just found a Quarto. You lost...",
+        lost:"You lost. The other player just found a Quarto.",
         wrong:"No Quarto found with the piece that you just placed...",
-        left:"The other player just left",
-        replay:"<button id='replay'>Play again</button><button id='leave'>Leave</button>"
+        left:"The other player just left"
     };
     
 
@@ -31,17 +34,30 @@ import Game from './Game.js';
         placezone.innerHTML= Game.getAllCells();
     }
     
+    function showgameinfo(){
+        overlay.classList.remove('hide');
+        gameinfo.classList.remove('hide');
+    }
+    
+    function closegameinfo(ev){
+        if(ev.target.className=="close"){
+            overlay.classList.add('hide');
+            gameinfo.classList.add('hide');
+        }
+    }
+    
     function replay(ev){
         var target = ev.target;
         if (target.className=="left") {
             start();
-            modal.classList.add('hide');
-            modal.removeEventListener('click',replay);
-            socket.emit('replay',{room:room});
+            askreplay.classList.add('hide');
+            askreplay.removeEventListener('click',replay);
+            socket.emit('replay',{room:room,replay:true});
         } else if (target.className=="right") {
+            socket.emit('replay',{room:room,replay:false});
             socket.disconnect();
-            modal.classList.add('hide');
-            modal.removeEventListener('click',replay);
+            askreplay.classList.add('hide');
+            askreplay.removeEventListener('click',replay);
         }
     }
     
@@ -73,9 +89,8 @@ import Game from './Game.js';
     
     function dragstart(ev) {
         var target = ev.target;
-        if (target.nodeName == "FIGURE") {
+        if (target.nodeName == "FIGURE")
           target = target.parentElement;
-        }
         ev.dataTransfer.setData("text", target.id);
     }
     
@@ -153,8 +168,8 @@ import Game from './Game.js';
                 socket.emit('won',{pieceid:highlights,room:room});
                 window.setTimeout(function(){
                     overlay.classList.remove('hide');
-                    modal.classList.remove('hide');
-                    modal.addEventListener('click',replay);
+                    askreplay.classList.remove('hide');
+                    askreplay.addEventListener('click',replay);
                 },3000);
             } else {
                 messagebox.innerHTML = instruction.wrong;
@@ -166,16 +181,15 @@ import Game from './Game.js';
     }
     
     socket.on('tell room',function(){
-        console.log('tell room');
         socket.emit('room name',{room:room});
     });
     socket.on('wait for other',function(){
-        console.log('Created a new game');
         messagebox.innerHTML = instruction.waitforjoin;
     });
+    socket.on('wait for replay',function(){
+        messagebox.innerHTML = instruction.waitforreplay;
+    });
     socket.on('ready to start',function(){
-        console.log('Game ready to start!');
-        overlay.classList.add('hide');
         messagebox.innerHTML = instruction.ready;
     });
     socket.on('room full',function(){
@@ -186,6 +200,7 @@ import Game from './Game.js';
     })
     socket.on('pick one',function(){
         console.log('pick one');
+        overlay.classList.add('hide');
         messagebox.innerHTML = instruction.give;
         waitzone.addEventListener('click',select);
         waitzone.classList.add('selectable');
@@ -206,10 +221,11 @@ import Game from './Game.js';
         messagebox.innerHTML = instruction.lost;
         window.setTimeout(function(){
             overlay.classList.remove('hide');
-            modal.classList.remove('hide');
-            modal.addEventListener('click',replay);
+            askreplay.classList.remove('hide');
+            askreplay.addEventListener('click',replay);
         },3000);
     });
+    
     socket.on('player left',function(){
         messagebox.innerHTML = instruction.left;
         start();
@@ -225,6 +241,8 @@ import Game from './Game.js';
     placezone.addEventListener('dragleave',dragleave);
     placezone.addEventListener('drop',drop);
     messagebox.addEventListener('click',quarto);
+    info.addEventListener('click',showgameinfo);
+    gameinfo.addEventListener('click',closegameinfo);
     start();
     
 })();

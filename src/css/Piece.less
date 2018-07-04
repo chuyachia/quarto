@@ -60,6 +60,7 @@ figure.left {
 
 figure.front { 
   -webkit-transform: translateZ(calc(@height/2)); 
+  background: linear-gradient(darken(@light,10%), @light);
 }
 
 figure.back { 
@@ -106,7 +107,11 @@ figure.right {
   -webkit-transform: rotateX(90deg) translateZ(0px);
 }
 
-.cylinder>.front{-webkit-transform:translateY(0px);}
+.cylinder>.front{
+  -webkit-transform:translateY(0px);
+}
+.dark>.front{background: linear-gradient(darken(@dark,10%), @dark);}
+
 
 .cylinder.short>.front{
     width:  @width; 

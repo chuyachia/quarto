@@ -1,15 +1,27 @@
 {{#section 'title'}}
-Game- {{room}}
+Quarto- {{room}}
 {{/section}}
 {{#section 'stylesheet'}}
 <link rel="stylesheet" type="text/css" href="/css/Game.css">
 {{/section}}
-<div id="modal" class="hide">Would you like to play again?
-  <button class="left">Yes</button><button class="right">No</button>
+<div id="askreplay" class="modal hide">
+  <h1>Would you like to play again?</h1>
+  <span class="left">Yes</span><span class="right">No</span>
+</div>
+<div id="gameinfo" class="modal hide">
+  <h2>How to play</h2>
+    <ul>
+      <li>There are 4 characteristics each of which comes with 2 variations- color (light or dark), height (tall or short), shape (square or circle) and hollow (hollow or full). This makes up for a total of 16 (4^2) pieces, each with a distinct trait combination.</li>
+      <li>The goal of the game is to form a line (horizontal, vertical or diagonal) with 4 pieces that share at least one trait in common. For example, 4 pieces that are all short or are all hollow.</li>
+      <li>At each round, you can place a piece given to you by the other player on the board and give a piece to the other player.</li>
+      <li>When a line of same trait pieces is formed, you should click <em>Quarto!</em> right away in the same round.</li>
+      <li>Note that you won't be able to call <em>Quarto!</em> for lines formed in previous rounds.</li>
+    </ul>
+  <span class="close">Got it</span>
 </div>
 <div id="overlay"></div>
 <div class="wrap">
-<div id="messagebox"></div>
+<div id="messagebox"></div><div id="info">i</div>
 <div id="board">
   <table id="placezone">
   </table>

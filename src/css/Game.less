@@ -1,7 +1,8 @@
 @dark: #4c1c24;
 @light:#e3dcc0;
 @grey: #666;
-@blue:#60c2ef;
+@blue:#428bca;
+@red:#d9534f;
 @import "Piece.less"; 
 
 body {
@@ -36,15 +37,19 @@ body {
 }
 
 
-div[draggable=true]>.bottom {box-shadow:0px 0px 20px 10px lighten(red,20%);}
+div[draggable=true]>.bottom {box-shadow:0px 0px 20px 10px @red;}
 
-.selectable .bottom {box-shadow:0px 0px 10px 10px @blue;}
+.selectable .bottom {box-shadow:0px 0px 30px 10px lighten(@blue,10%);}
+.selectable figure {cursor:pointer}
 
 .shine>.base{ box-shadow:0px 0px 20px 10px darken(@grey,10%);}
 
-.highlight> .base {background-color: lighten(red,20%);}
+.highlight> .base {background-color: @red;}
 
-#board{ margin-top:200px}
+#board{ 
+    margin-top:200px;
+    margin-bottom:50px
+}
 
 #board:after { 
    content: " ";
@@ -54,7 +59,7 @@ div[draggable=true]>.bottom {box-shadow:0px 0px 20px 10px lighten(red,20%);}
 }
 
 #overlay{
-    opacity:0.5;
+    opacity:0.4;
     background-color:#ccc;
     position:fixed;
     width:100%;
@@ -64,18 +69,29 @@ div[draggable=true]>.bottom {box-shadow:0px 0px 20px 10px lighten(red,20%);}
     z-index:10;
 }
 
-#modal {
-    opacity:0.8;
+.modal {
+    color:@dark;
     position:fixed;
-    top:0px;
-    bottom:0px;
-    left:0px;
-    right:0px;
-    margin:auto;
-    background-color:white;
-    width:50%;
-    height:30%;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    background-color:rgba(255,255,255,0.8);
     z-index:20; 
+    text-align:center;
+    border-radius:3px;
+    padding:10px
+}
+
+.modal>span{
+  cursor:pointer;
+   font-weight:bold
+}
+.modal>.left {
+    float:left;
+}
+
+.modal>.right {
+    float:right;
 }
 
 .hide { display:none}
@@ -87,24 +103,37 @@ div[draggable=true]>.bottom {box-shadow:0px 0px 20px 10px lighten(red,20%);}
   padding:5px;
   margin:10px;
   position:absolute;
-  
+  border-radius:3px;
+}
+
+#info{
+  font-size:2em;
+  position:fixed;
+  line-height:50px;
+  right:0px;
+  bottom:0px;
+  width:50px;
+  height:50px;
+  background-color:@grey;
+  color:darken(@grey,20%);
+  border-radius: 100% 0 0 0;
+  text-align:center;
+  cursor:pointer;
+  z-index:20;
+}
+
+ul {
+  list-style-type: none;
+  padding-left: 0;
+
 }
 
 #quarto{
+    color:@dark;
   cursor:pointer;
   font-size:1.5em;
 }
 
-.wrap {position:absolute}
-
-button.left {
+.wrap {
     position:absolute;
-    bottom:5px;
-    left:5px
-}
-
-button.right {
-    position:absolute;
-    bottom:5px;
-    right:5px
 }

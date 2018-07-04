@@ -8,12 +8,12 @@ Quarto
     <div class="title">Quarto</div>
     <div class="input-field">
         <form action="join" method="post">
-            Join an existing game : <input name="roomname" type="text" required>
+            Join an existing game <input name="roomname" type="text" placeholder="Enter game name" required>
             <button type="submit">Join</button>
         </form>
         <em class="warning">{{joinerror}}</em>
         <form action="create" method="post">
-             Create a new game : <input name="roomname" type="text" required>
+             Create a new game <input name="roomname" type="text"  placeholder="Enter game name" required>
               <button type="submit">Create</button>
         </form>
         <em class="warning">{{createerror}}</em>

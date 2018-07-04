@@ -1,4 +1,3 @@
-// record existing room and prevent user from creating room from url and clean rooms regularly
 module.exports = function(io,activeRooms){
   var express = require('express');
   var routes = express.Router();
@@ -9,11 +8,10 @@ module.exports = function(io,activeRooms){
   });
   
   routes.get('/game/:room', function(req, res) {
-    console.log(activeRooms);
     if (req.params.room in activeRooms)
       res.render('game',{room:req.params.room});
     else
-      res.send('error');
+      res.redirect('/');
   });
   
   routes.post('/join',(req,res)=>{
