@@ -15,10 +15,10 @@ import Game from './Game.js';
         notexist:'The game that you try to join does not exist. Please try another game',
         waitformove:'Waiting for the other player to act',
         ready:'Game ready to start! Waiting for the other player to act',
-        give:'Click a piece to give it to the other player or click <em id="quarto">Quarto!</em> here if you think you just made a line.',
-        place:'Drap the highlighted piece and drop on the desired cell.',
+        give:'Click a piece to give it to the other player or click <em id="quarto">Quarto!</em> here if you think you just made a line',
+        place:'Drap the highlighted piece and drop on the desired cell',
         won:"You won!",
-        lost:"You lost. The other player just found a Quarto.",
+        lost:"You lost. The other player just found a Quarto",
         wrong:"No Quarto found with the piece that you just placed...",
         left:"The other player just left"
     };
@@ -32,13 +32,11 @@ import Game from './Game.js';
     }
     
     function showgameinfo(){
-        overlay.classList.remove('hide');
         gameinfo.classList.remove('hide');
     }
     
     function closegameinfo(ev){
         if(ev.target.className=="close"){
-            overlay.classList.add('hide');
             gameinfo.classList.add('hide');
         }
     }
@@ -155,6 +153,12 @@ import Game from './Game.js';
         ids.forEach(function(id){
             var piece = document.getElementById('cell'+id);
             piece.classList.add('highlight');
+            timeouts.push(window.setTimeout(function(){
+                piece.classList.remove('highlight');
+            },1000))
+            timeouts.push(window.setTimeout(function(){
+                piece.classList.add('highlight');
+            },2000))
         });
     }
     

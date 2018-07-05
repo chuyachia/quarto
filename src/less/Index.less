@@ -1,0 +1,74 @@
+@grey: #666;
+@light:#e3dcc0;
+@import "Piece.less"; 
+@import (reference) "Prefixer.less";
+
+* {
+    font-size: 18px;
+    font-family:Helvetica;
+}
+
+.title{
+   font-family:'Courgette';
+   font-size:3em;
+   text-shadow: 2px 2px @grey;
+}
+
+body {
+   background-color:grey;
+   color:@light;
+}
+
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  text-align:center
+}
+
+input {
+  border: 1px solid lightgray;
+  border-radius: 3px;
+}
+.input-field {
+    margin-top:20px;
+    margin-bottom:20px;
+}
+
+button{
+    border: 3px solid darken(@light,20%);
+    border-radius: 3px;
+    background-color:@light;
+    color:@grey;
+    margin-top:5px;
+    margin-bottom:5px;
+    cursor:pointer;
+}
+
+footer {
+  position:fixed;
+  bottom:5px;
+  right:0;
+  left:0;
+  text-align:center;
+  z-index:15;
+}
+
+footer> a {
+    text-decoration:underline dotted;
+    &:visited{
+       color: @light; 
+    }
+}
+
+@keyframes jump {
+  0%   {.transform(translate3d(0,0,0) scale3d(1,1,1));}
+  60%  {.transform(translate3d(0,30%,0) scale3d(.7,1.5,1));}
+  100% {.transform(translate3d(0,0%,0) scale3d(1,1,1));}
+}
+
+.stage:hover {
+  .transform-origin();
+  animation: jump .5s linear alternate  1;
+}

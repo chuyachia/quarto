@@ -1,0 +1,125 @@
+@height:80px;
+@width:80px;
+@dark: #4c1c24;
+@light:#e3dcc0;
+@import (reference) "Prefixer.less";
+
+.cube, .cylinder {  
+  .transform-style();
+}
+
+.cube{ 
+  .transform(rotateY(5deg));
+}
+
+.stage {
+  margin-left:10px;
+  margin-right:10px;
+  width: 120px; 
+  height: 120px;
+  .perspective(1200px);
+  .perspective-origin();
+  display:inline-block
+}
+
+figure {
+  display: block; 
+  position: absolute;
+  width:@width; 
+  height: @height;
+  border-radius:3%;
+  background-color:@light;
+  .transform-origin();
+}
+
+.dark>figure{
+  background-color:@dark
+}
+
+.dark>figure.top {
+   background-color: darken(@dark,5%); 
+}
+
+.dark>figure.left {
+   background-color: darken(@dark,10%); 
+}
+
+figure.top {
+  background-color: darken(@light,5%);
+  .transform(rotateX(90deg) translateZ(calc(@height/2)));
+}
+
+figure.left {
+  background-color: darken(@light,10%); 
+  .transform(rotateY(-90deg) translateZ(calc(@height/2)));
+}
+
+.hole.dark>.top{
+  background: radial-gradient(black 40%, darken(@dark,5%) 50%);
+}
+
+.hole>.top{
+  background: radial-gradient(black 40%, darken(@light,5%) 50%);
+}
+
+
+figure.front { 
+  .transform(translateZ(calc(@height/2))); 
+  background: linear-gradient(darken(@light,10%), @light);
+}
+
+figure.back { 
+  .transform(rotateY(180deg) translateZ(calc(@height/2)));
+}
+
+figure.bottom { 
+  .transform(rotateX(-90deg) translateZ(calc(@height/2)));
+  box-shadow:0px 0px 10px rgba(0,0,0,0.75);
+}
+
+figure.right { 
+  .transform(rotateY(90deg) translateZ(calc(@height/2))); 
+}
+
+.cylinder>.top, .cylinder>.bottom{
+  border-radius:50%;
+}
+
+.short >.front {
+  .transform(translateZ(calc(@height/2)) translateY(calc(@height/2))); 
+  height: calc(@height/2);
+}
+
+.short>.back {
+  .transform(rotateY(180deg) translateZ(calc(@height/2)) translateY(calc(@height/2)));
+  width: @width; 
+  height: calc(@height/2);
+}
+
+.short>.left {
+  .transform(rotateY(-90deg) translateZ(calc(@height/2)) translateY(calc(@height/2)));
+  width: @width; 
+  height: calc(@height/2);
+}
+
+.short>.right {
+  .transform(rotateY(90deg) translateZ(calc(@height/2))  translateY(calc(@height/2))); 
+  width:  @width; 
+  height: calc(@height/2);
+}
+
+.short>.top {
+  .transform(rotateX(90deg) translateZ(0px));
+}
+
+.cylinder>.front{
+  .transform(translateY(0px));
+}
+.dark>.front{background: linear-gradient(darken(@dark,10%), @dark);}
+
+.cylinder.short>.front{
+  width:  @width; 
+  height: calc(@height/2);
+  .transform(translateY(calc(@height/2)));
+}
+
