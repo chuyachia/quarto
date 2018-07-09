@@ -5,12 +5,13 @@
   "scripts": {
     "start-dev": "webpack -w --mode development&less-watch-compiler src/less client/css&nodemon server.js",
     "build": "webpack --progress --mode production",
-    "start":"node server.js"
+    "start": "node server.js"
   },
   "repository": "",
   "dependencies": {
     "express": "^4.16.3",
     "express-handlebars": "^3.0.0",
+    "mobile-drag-drop": "^2.3.0-rc.1",
     "socket.io": "^2.1.1"
   },
   "devDependencies": {

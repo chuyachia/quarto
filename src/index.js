@@ -1,4 +1,11 @@
 import Game from './Game.js';
+import {polyfill} from "mobile-drag-drop";
+
+// optional import of scroll behaviour
+import {scrollBehaviourDragImageTranslateOverride} from "mobile-drag-drop/scroll-behaviour";
+
+// options are optional ;)
+
 (function(){
     var socket = io.connect(window.location.hostname);
     var waitzone = document.getElementById('waitzone');
@@ -70,6 +77,8 @@ import Game from './Game.js';
         waitzone.removeEventListener('click',select);
         waitzone.classList.remove('selectable');
         socket.emit('given',{pieceid:target.id,room:room});
+        if (document.title.indexOf("*")===0)
+            document.title = document.title.slice(1);
         }
     }
     
@@ -166,6 +175,8 @@ import Game from './Game.js';
         if (ev.target.id=="quarto"){
             var highlights =Game.quarto();
             if (highlights.length>0){
+                if (document.title.indexOf("*")===0)
+                    document.title = document.title.slice(1);
                 showWin(highlights);
                 messagebox.innerHTML = instruction.won;
                 waitzone.removeEventListener('click',select);
@@ -205,6 +216,8 @@ import Game from './Game.js';
         messagebox.innerHTML = instruction.notexist;
     });
     socket.on('pick one',function(){
+        if (document.title.indexOf("*")!==0)
+            document.title = '*'+document.title;
         overlay.classList.add('hide');
         messagebox.innerHTML = instruction.give;
         waitzone.addEventListener('click',select);
@@ -215,6 +228,8 @@ import Game from './Game.js';
         messagebox.innerHTML = instruction.waitformove;
     });
     socket.on('toplace',function(data){
+        if (document.title.indexOf("*")!==0)
+            document.title = '*'+document.title;
         overlay.classList.add('hide');
         makeDraggable(data.pieceid);
         messagebox.innerHTML = instruction.place;
@@ -224,22 +239,31 @@ import Game from './Game.js';
     });
     socket.on('otherwon',function(data){
         showWin(data.pieceid);
+        if (document.title.indexOf("*")!==0)
+            document.title = '*'+document.title;
         messagebox.innerHTML = instruction.lost;
         timeouts.push(window.setTimeout(function(){
             showreplay();
+            document.title = document.title.slice(1);
         },3000));
     });
     
     socket.on('player left',function(){
+        if (document.title.indexOf("*")!==0)
+            document.title = '*'+document.title;
         timeouts.forEach(clearTimeout);
         timeouts=[];
         messagebox.innerHTML = instruction.left;
         overlay.classList.remove('hide');
         timeouts.push(window.setTimeout(function(){
             messagebox.innerHTML = instruction.waitforjoin;
+            document.title = document.title.slice(1);
         },3000));
     });
     
+    polyfill({
+        dragImageTranslateOverride: scrollBehaviourDragImageTranslateOverride
+    });
     waitzone.addEventListener('dragstart',dragstart);
     placezone.addEventListener('dragover',dragover);
     placezone.addEventListener('dragenter',dragenter);

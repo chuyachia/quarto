@@ -223,6 +223,7 @@ div[draggable=true] > .bottom {
   text-align: center;
   border-radius: 3px;
   padding: 10px;
+  width: 80%;
 }
 .modal > span {
   cursor: pointer;
@@ -284,7 +285,5 @@ footer {
 }
 footer > a {
   text-decoration: underline dotted;
-}
-footer > a:visited {
   color: #e3dcc0;
 }
