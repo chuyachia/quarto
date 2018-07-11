@@ -35,16 +35,21 @@ input {
     margin-top:20px;
     margin-bottom:20px;
 }
+.input {
+    display:flex;
+    flex-flow: row;
+    justify-content:center;
+    margin:10px;
+}
 
 button{
     border: 3px solid darken(@light,20%);
     border-radius: 3px;
     background-color:@light;
     color:@grey;
-    margin-top:5px;
-    margin-bottom:5px;
     cursor:pointer;
 }
+
 
 footer {
   position:fixed;
@@ -57,9 +62,7 @@ footer {
 
 footer> a {
     text-decoration:underline dotted;
-    &:visited{
-       color: @light; 
-    }
+    color: @light; 
 }
 
 @keyframes jump {

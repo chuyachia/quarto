@@ -8,43 +8,49 @@ Quarto
     <div class="title">Quarto</div>
     <div class="input-field">
         <form action="join" method="post">
-            Join an existing game <input name="roomname" type="text" placeholder="Enter game name" required>
-            <button type="submit">Join</button>
+            Join an existing game 
+            <div class="input">
+                <input name="roomname" type="text" placeholder="Enter game name" required>
+                <button type="submit">Join</button>
+            </div>
         </form>
         <em class="warning">{{joinerror}}</em>
         <form action="create" method="post">
-             Create a new game <input name="roomname" type="text"  placeholder="Enter game name" required>
-              <button type="submit">Create</button>
+             Create a new game 
+             <div class="input">
+                 <input name="roomname" type="text"  placeholder="Enter game name" required>
+                 <button type="submit">Create</button>
+             </div>
         </form>
         <em class="warning">{{createerror}}</em>
     </div>
-    <div class="stage">
-    <div class="cube hole">
-      <figure class="back"></figure>
-      <figure class="top"></figure>
-      <figure class="bottom"></figure>
-      <figure class="left"></figure>
-      <figure class="right"></figure>
-      <figure class="front"></figure>
-    </div>
-</div>
-<div class="stage">
-    <div class="cylinder hole short dark"> 
-      <figure class="top"></figure>
-      <figure class="bottom"></figure>
-      <figure class="front"></figure>
-    </div>
-</div>
-<div class="stage">
-    <div class="cube dark">
-      <figure class="back"></figure>
-      <figure class="top"></figure>
-      <figure class="bottom"></figure>
-      <figure class="left"></figure>
-      <figure class="right"></figure>
-      <figure class="front"></figure>
-    </div>
-</div>
+        <div class="stage">
+            <div class="cube hole">
+              <figure class="back"></figure>
+              <figure class="top"></figure>
+              <figure class="bottom"></figure>
+              <figure class="left"></figure>
+              <figure class="right"></figure>
+              <figure class="front"></figure>
+            </div>
+        </div>
+        <div class="stage">
+            <div class="cylinder hole short dark"> 
+              <figure class="top"></figure>
+              <figure class="bottom"></figure>
+              <figure class="front"></figure>
+            </div>
+        </div>
+        <div class="stage">
+            <div class="cube dark">
+              <figure class="back"></figure>
+              <figure class="top"></figure>
+              <figure class="bottom"></figure>
+              <figure class="left"></figure>
+              <figure class="right"></figure>
+              <figure class="front"></figure>
+            </div>
+        </div>
 </div>
 
 
