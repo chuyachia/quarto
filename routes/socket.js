@@ -60,9 +60,15 @@ module.exports = function(io,activeRooms){
                     replay[data.room] = {res1:false};
                 
             }
-        })
+        });
         
+        socket.on('message',function(data){
+            socket.broadcast.to(data.room).emit('new message',{message:data.message});
+        });
         
+        socket.on('gif',function(data){
+            socket.broadcast.to(data.room).emit('new gif',{url:data.url,width:data.width,height:data.height});
+        });        
         socket.on('disconnect', function () {
             Object.keys(activeRooms).forEach(function(k){
                 var ind = activeRooms[k].indexOf(socket.id);

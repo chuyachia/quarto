@@ -1,10 +1,9 @@
 import Game from './Game.js';
+import chatModule from './Chat.js';
 import {polyfill} from "mobile-drag-drop";
 
-// optional import of scroll behaviour
 import {scrollBehaviourDragImageTranslateOverride} from "mobile-drag-drop/scroll-behaviour";
 
-// options are optional ;)
 
 (function(){
     var socket = io.connect(window.location.hostname);
@@ -15,6 +14,8 @@ import {scrollBehaviourDragImageTranslateOverride} from "mobile-drag-drop/scroll
     var overlay = document.getElementById('overlay');
     var placezone = document.getElementById('placezone');
     var askreplay = document.getElementById('askreplay');
+    var Chat = chatModule(socket,room);
+
     const instruction= {
         waitforjoin:'Waiting for a new player to join the game',
         waitforreplay:'Waiting for the other player to join the game',
@@ -53,6 +54,7 @@ import {scrollBehaviourDragImageTranslateOverride} from "mobile-drag-drop/scroll
         askreplay.classList.remove('hide');
         askreplay.addEventListener('click',replay);
     }
+
     
     function replay(ev){
         var target = ev.target;
@@ -207,6 +209,7 @@ import {scrollBehaviourDragImageTranslateOverride} from "mobile-drag-drop/scroll
     });
     socket.on('ready to start',function(){
         start();
+        Chat.clearmessage();
         messagebox.innerHTML = instruction.ready;
     });
     socket.on('room full',function(){
@@ -261,9 +264,18 @@ import {scrollBehaviourDragImageTranslateOverride} from "mobile-drag-drop/scroll
         },3000));
     });
     
+    socket.on('new message',function(data){
+        Chat.appendmessage(data.message);
+    });
+    
+    socket.on('new gif',function(data){
+        Chat.appendgif(data.url,data.width,data.height);
+    });
+    
     polyfill({
         dragImageTranslateOverride: scrollBehaviourDragImageTranslateOverride
     });
+    
     waitzone.addEventListener('dragstart',dragstart);
     placezone.addEventListener('dragover',dragover);
     placezone.addEventListener('dragenter',dragenter);

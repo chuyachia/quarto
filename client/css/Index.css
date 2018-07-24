@@ -151,18 +151,37 @@ figure.right {
   -ms-transform: translateY(calc(80px/2));
   -o-transform: translateY(calc(80px/2));
 }
-* {
-  font-size: 18px;
+footer {
+  position: fixed;
+  bottom: 5px;
+  right: 0;
+  left: 0;
+  text-align: center;
   font-family: Helvetica;
+  z-index: 10;
 }
-.title {
-  font-family: 'Courgette';
-  font-size: 3em;
-  text-shadow: 2px 2px #666;
+footer > a {
+  text-decoration: underline dashed;
+  text-underline-position: under;
+  color: #e3dcc0;
 }
 body {
   background-color: grey;
   color: #e3dcc0;
+  font-size: 18px;
+  font-family: Helvetica;
+  margin: 0;
+  padding: 0;
+}
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .center {
   position: absolute;
@@ -171,13 +190,10 @@ body {
   transform: translate(-50%, -50%);
   text-align: center;
 }
-input {
-  border: 1px solid lightgray;
-  border-radius: 3px;
-}
-.input-field {
-  margin-top: 20px;
-  margin-bottom: 20px;
+.title {
+  font-family: 'Courgette';
+  font-size: 4em;
+  text-shadow: 2px 2px #666;
 }
 .input {
   display: flex;
@@ -185,24 +201,26 @@ input {
   justify-content: center;
   margin: 10px;
 }
+.input > * {
+  border-radius: 3px;
+  font-size: 1rem;
+}
+input {
+  border: 1px solid lightgray;
+  padding: 5px;
+}
 button {
   border: 3px solid #c4b579;
   border-radius: 3px;
   background-color: #e3dcc0;
   color: #666;
   cursor: pointer;
+  font-weight: bold;
+  padding: 5px;
 }
-footer {
-  position: fixed;
-  bottom: 5px;
-  right: 0;
-  left: 0;
-  text-align: center;
-  z-index: 15;
-}
-footer > a {
-  text-decoration: underline dotted;
-  color: #e3dcc0;
+.input-field {
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 @keyframes jump {
   0% {

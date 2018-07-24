@@ -21,8 +21,26 @@ Quarto- {{room}}
 </div>
 <div id="overlay"></div>
 <div class="wrap">
+  <div id="sidebar" class="nowidth">
+    <div id="sidebar-btn" class="btn">
+      <i class="far fa-comments fa-3x"></i>
+    </div>
+    <div id="sidebar-pane">
+      <div id="chat">
+        <div>-- Beginning of the conversation --</div>
+      </div>
+      <div class="input-field">
+        <textarea id="message-text" maxlength="200" rows="3" placeholder="Say hi to the other player"></textarea>
+        <div id="gif-btn" class="btn">GIF</div>
+        <div id="gifsearch" class="noshow">
+          <input  id="gif-search" type="text">
+          <div id="gifpreview"></div>
+        </div>
+      </div>
+    </div>
+  </div>
   <div id="messagebox"></div>
-  <div id="info">i</div>
+  <div id="info"><i class="fas fa-info"></i></div>
   <div id="board">
     <table id="placezone"></table>
     <div id="waitzone"></div>
