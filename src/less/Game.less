@@ -3,6 +3,7 @@
 @grey: #666;
 @blue:#428bca;
 @red:#d9534f;
+@import (reference) "Prefixer.less";
 @import "Piece.less"; 
 @import "Footer.less"; 
 
@@ -29,7 +30,7 @@ body {
 }
 #placezone{
     float:left;
-    -webkit-transform-style: preserve-3d
+    .transform-style();
 }
 
 
@@ -40,7 +41,7 @@ body {
     height: 110px;
     border-radius:50%;
     background-color:@grey;
-    -webkit-transform: rotateX(90deg) translateX(25px) translateY(80px); 
+    .transform(rotateX(90deg) translateX(25px) translateY(80px));
 }
 
 
@@ -84,7 +85,7 @@ div[draggable=true]>.bottom {box-shadow:0px 0px 20px 10px @red;}
     position:fixed;
     top:50%;
     left:50%;
-    transform:translate(-50%,-50%);
+    .transform(translate(-50%,-50%));
     background-color:rgba(255,255,255,0.8);
     z-index:20; 
     text-align:center;
@@ -157,7 +158,7 @@ ul {
     right:0;
     z-index:15;
     justify-content:flex-end;
-    transition: all 0.5s;
+    .transition(all 0.5s);
     font-family:Helvetica;
     color:@grey;
 }
@@ -197,7 +198,7 @@ ul {
     background-color:white;
     display:flex;
     flex-flow:column;
-    transition: all 0.5s;
+    .transition(all 0.5s);
     overflow-x:hidden
 }
 #sidebar-pane>* {
@@ -220,9 +221,27 @@ ul {
 #chat * {
    word-wrap: break-word;  
 }
-.right-align {
-    text-align:right
+#chat .message-block{
+    padding:2px;
 }
+#chat .message-block.self{
+    text-align:right;
+}
+#chat img {
+    border-radius: 3px;
+}
+#chat .message {
+    max-width:80%;
+    display:inline-block;
+    border-radius: 3px;
+    background-color:lightgray;
+    padding:2px;
+}
+
+#chat .message-block.self>.message {
+   background-color:@light;
+}
+
 .input-field  * {
     border-radius: 3px;  
     font-size:1rem;
@@ -247,7 +266,7 @@ input, textarea {
     background-color:white;
     padding:10px;
     height:80%;
-    width:60%;
+    width:70%;
     display:flex;
     flex-flow:column;
 }
@@ -266,7 +285,7 @@ input, textarea {
 #gifsearch:before {
     border-color: lightgray transparent transparent transparent ;
     border-width: 12px;
-    transform:translateX(-2px)
+    .transform(translateX(-2px))
 }
 #gifsearch:after {
     border-color: white transparent transparent transparent ;
@@ -299,6 +318,6 @@ input, textarea {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% { .transform(rotate(0deg)); }
+  100% { .transform(rotate(360deg)); }
 }

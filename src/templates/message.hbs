@@ -1,12 +1,9 @@
-<div {{#if other}}class="right-align"{{/if}}>
-    {{#if other}}
-    <h5>Other player</h5>
-    {{else}}
-    <h5>You</h5>
-    {{/if}}
+<div class="message-block {{#unless other}}self{{/unless}}">
     {{#if url}}
     <img src={{url}} width={{width}} height={{height}}>
     {{else}}
+    <div class="message">
     {{message}}
+    </div>
     {{/if}}
 </div>

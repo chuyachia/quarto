@@ -189,6 +189,9 @@ body {
 #placezone {
   float: left;
   -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  -ms-transform-style: preserve-3d;
+  -o-transform-style: preserve-3d;
 }
 .base {
   display: block;
@@ -198,6 +201,9 @@ body {
   border-radius: 50%;
   background-color: #666;
   -webkit-transform: rotateX(90deg) translateX(25px) translateY(80px);
+  -moz-transform: rotateX(90deg) translateX(25px) translateY(80px);
+  -ms-transform: rotateX(90deg) translateX(25px) translateY(80px);
+  -o-transform: rotateX(90deg) translateX(25px) translateY(80px);
 }
 div[draggable=true] > .bottom {
   box-shadow: 0px 0px 20px 10px #d9534f;
@@ -240,7 +246,10 @@ div[draggable=true] > .bottom {
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
   background-color: rgba(255, 255, 255, 0.8);
   z-index: 20;
   text-align: center;
@@ -305,7 +314,10 @@ ul {
   right: 0;
   z-index: 15;
   justify-content: flex-end;
-  transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  -ms-transition: all 0.5s;
+  -o-transition: all 0.5s;
   font-family: Helvetica;
   color: #666;
 }
@@ -342,7 +354,10 @@ ul {
   background-color: white;
   display: flex;
   flex-flow: column;
-  transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  -ms-transition: all 0.5s;
+  -o-transition: all 0.5s;
   overflow-x: hidden;
 }
 #sidebar-pane > * {
@@ -363,8 +378,24 @@ ul {
 #chat * {
   word-wrap: break-word;
 }
-.right-align {
+#chat .message-block {
+  padding: 2px;
+}
+#chat .message-block.self {
   text-align: right;
+}
+#chat img {
+  border-radius: 3px;
+}
+#chat .message {
+  max-width: 80%;
+  display: inline-block;
+  border-radius: 3px;
+  background-color: lightgray;
+  padding: 2px;
+}
+#chat .message-block.self > .message {
+  background-color: #e3dcc0;
 }
 .input-field * {
   border-radius: 3px;
@@ -390,7 +421,7 @@ textarea {
   background-color: white;
   padding: 10px;
   height: 80%;
-  width: 60%;
+  width: 70%;
   display: flex;
   flex-flow: column;
 }
@@ -407,7 +438,10 @@ textarea {
 #gifsearch:before {
   border-color: lightgray transparent transparent transparent ;
   border-width: 12px;
-  transform: translateX(-2px);
+  -webkit-transform: translateX(-2px);
+  -moz-transform: translateX(-2px);
+  -ms-transform: translateX(-2px);
+  -o-transform: translateX(-2px);
 }
 #gifsearch:after {
   border-color: white transparent transparent transparent ;
@@ -436,9 +470,15 @@ textarea {
 }
 @keyframes spin {
   0% {
-    transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
   }
   100% {
-    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
   }
 }
