@@ -11,9 +11,26 @@ var Chat = function(socket,room){
     var gifbtn = document.getElementById('gif-btn');
     var gifsearch = document.getElementById('gifsearch');
     var gifpreview = document.getElementById('gifpreview');
+    var loader = document.getElementById('loader');
     var gifs=[];
-    var next = null;
+    var next = 0;
+    var stopload = false;
     var searchterm = null;
+
+    function debounce(func, wait, immediate) {
+    	var timeout;
+    	return function() {
+    		var context = this, args = arguments;
+    		var later = function() {
+    			timeout = null;
+    			if (!immediate) func.apply(context, args);
+    		};
+    		var callNow = immediate && !timeout;
+    		clearTimeout(timeout);
+    		timeout = setTimeout(later, wait);
+    		if (callNow) func.apply(context, args);
+    	};
+    }
     
     function showchat(){
         if (!sidebar.classList.contains('nowidth')) {
@@ -24,8 +41,8 @@ var Chat = function(socket,room){
                 sidebarbtn.classList.remove('unread');
             }
         }
-    }
-    
+    } 
+
     function gettrendinggifs(){
         axios.get('/gif/trending',{
             params:{pos:next}
@@ -39,6 +56,11 @@ var Chat = function(socket,room){
                 };
             });
             next=results.data.next;
+            if (next==0)
+                stopload=true;
+            if (!loader.classList.contains('noshow')) {
+                loader.classList.add('noshow');
+            }
             gifpreview.innerHTML+=gifpreviewTemplate({gifs:gifs});
         }).catch(function(err){
             console.log(err);
@@ -57,6 +79,11 @@ var Chat = function(socket,room){
                 };
             });
             next=results.data.next;
+            if (next==0)
+                stopload=true;
+            if (!loader.classList.contains('noshow')) {
+                loader.classList.add('noshow');
+            }
             gifpreview.innerHTML+=gifpreviewTemplate({gifs:gifs});
         }).catch(function(err){
             console.log(err);
@@ -65,8 +92,13 @@ var Chat = function(socket,room){
     
     function searchgif(ev){
         if (ev.keyCode===13) {
+            next=0;
+            stopload=false;
             searchterm = search.value;
             gifpreview.innerHTML='';
+            if (loader.classList.contains('noshow')) {
+                loader.classList.remove('noshow');
+            } 
             getsearchgifs();
         }        
     }
@@ -74,8 +106,12 @@ var Chat = function(socket,room){
     function showgif(){
         if(gifsearch.classList.contains('noshow')){
             gifsearch.classList.remove('noshow');
-            if (gifs.length==0)
+            if (gifs.length==0) {
+                if (loader.classList.contains('noshow')) {
+                    loader.classList.remove('noshow');
+                } 
                 gettrendinggifs();
+            }
         } else {
             gifsearch.classList.add('noshow');
         }
@@ -94,7 +130,7 @@ var Chat = function(socket,room){
     }
     
     function contsearch(){
-        if (Math.round(gifpreview.offsetHeight)+Math.round(gifpreview.scrollTop)==Math.round(gifpreview.scrollHeight)) {
+        if (gifpreview.scrollTop>0&&Math.round(gifpreview.offsetHeight)+Math.round(gifpreview.scrollTop)==Math.round(gifpreview.scrollHeight)&&!stopload) {
             if (searchterm) {
                 getsearchgifs();
             } else {
@@ -137,7 +173,7 @@ var Chat = function(socket,room){
     sidebarbtn.addEventListener('click',showchat);
     message.addEventListener('keydown',sendmessage);
     gifbtn.addEventListener('click',showgif);
-    gifpreview.addEventListener('scroll',contsearch);
+    gifpreview.addEventListener('scroll',debounce(contsearch,1000));
     gifpreview.addEventListener('click',sharegif);
     gifsearch.addEventListener('keydown',searchgif);
     

@@ -8,7 +8,7 @@ routes.get("/trending", function(req,res){
         key:process.env.TENOR_KEY,
         locale:"en_US"        
     };
-    if (req.query.pos)
+    if (req.query.pos>0)
         params['pos'] = req.query.pos;
     axios.get(apiurl,{
         params:params
@@ -26,7 +26,7 @@ routes.get("/search", function(req,res){
         key:process.env.TENOR_KEY,
         locale:"en_US"        
     };
-    if (req.query.pos)
+    if (req.query.pos>0)
         params['pos'] = req.query.pos;
     axios.get(apiurl,{
         params:params
