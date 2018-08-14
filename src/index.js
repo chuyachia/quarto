@@ -66,8 +66,8 @@ import {scrollBehaviourDragImageTranslateOverride} from "mobile-drag-drop/scroll
         } else if (target.className=="right") {
             socket.emit('replay',{room:room,replay:false});
             socket.disconnect();
-            askreplay.classList.add('hide');
             askreplay.removeEventListener('click',replay);
+            window.location.href = '/';
         }
     }
     
